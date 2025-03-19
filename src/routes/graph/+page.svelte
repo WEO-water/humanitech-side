@@ -1,7 +1,7 @@
 <script>
     import { Chart, Card, A, Button, Dropdown, DropdownItem } from 'flowbite-svelte';
     import { ChevronRightOutline, ChevronDownOutline } from 'flowbite-svelte-icons';
-  
+    import { assets, base, resolveRoute } from '$app/paths';
     let options = {
       chart: {
         height: '400px',
@@ -92,7 +92,7 @@
           <DropdownItem>Last 30 days</DropdownItem>
           <DropdownItem>Last 90 days</DropdownItem>
         </Dropdown>
-        <A href="/" class="uppercase text-sm font-semibold hover:text-primary-700 dark:hover:text-primary-500 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2 hover:no-underline">
+        <A href={base} class="uppercase text-sm font-semibold hover:text-primary-700 dark:hover:text-primary-500 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2 hover:no-underline">
           Users Report
           <ChevronRightOutline class="w-2.5 h-2.5 ms-1.5" />
         </A>
