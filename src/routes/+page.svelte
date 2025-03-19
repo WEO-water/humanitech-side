@@ -4,7 +4,7 @@
   
     let {data} = $props() // Receives `paramValue` from `+page.js`
     let fetchedData = null;
-    let paramValue = null;
+    let paramValue = $state("no name");
     onMount(() => {
       const urlParams = new URLSearchParams(window.location.search);
       paramValue = urlParams.get("name") || "No name provided";
