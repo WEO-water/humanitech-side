@@ -1,5 +1,6 @@
 export function load({ url }) {
     return {
-        paramValue: url.searchParams.get("name") || "No name provided"
+        name: url.searchParams.get("name") || "No name provided",
+        first: url.searchParams.get("first") || 0,
     };
 }
