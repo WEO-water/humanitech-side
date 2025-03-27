@@ -2,6 +2,17 @@
     import { Chart, Card, A, Button, Dropdown, DropdownItem } from 'flowbite-svelte';
     import { ChevronRightOutline, ChevronDownOutline } from 'flowbite-svelte-icons';
     import { assets, base, resolveRoute } from '$app/paths';
+    import { onMount } from 'svelte';
+
+    let data_point = $state(0)
+    onMount(async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      let firstParam = urlParams.get("first");
+      data_point = 0
+      if(firstParam != null){
+        data_point = parseInt(firstParam);
+      }
+    })
     let options = {
       chart: {
         height: '400px',
@@ -73,8 +84,8 @@
   <Card>
     <div class="flex justify-between">
       <div>
-        <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">32.4k</h5>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">Users this week</p>
+        <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">{data_point}</h5>
+        <p class="text-base font-normal text-gray-500 dark:text-gray-400">Land Surface Temperature</p>
       </div>
       <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
         12%
