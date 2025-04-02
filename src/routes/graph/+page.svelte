@@ -125,14 +125,14 @@
         </div>
       </div>
       <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
-        {#if change_lst > 0}
+        {#if change_lst <= 0}
         <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
-          <ArrowUpOutline class="w-2.5 h-2.5 me-1.5" />
+          <ArrowDownOutline class="w-2.5 h-2.5 me-1.5" />
           {change_lst}°C
         </span>
         {:else}
         <span class="bg-red-100 text-red-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-red-900 dark:text-red-300">
-          <ArrowDownOutline class="w-2.5 h-2.5 me-1.5" />
+          <ArrowUpOutline class="w-2.5 h-2.5 me-1.5" />
           {change_lst}°C
         </span>
         {/if}
