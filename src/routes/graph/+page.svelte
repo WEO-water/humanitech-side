@@ -15,11 +15,11 @@
       const urlParams = new URLSearchParams(window.location.search);
       let valuesParam = urlParams.get("values") || ""; // Format comma separated values
       name = urlParams.get("name") || ""; // Format comma separated values
-      chartData = valuesParam.split(",").map(num => Number(num.trim()));
+      chartData = valuesParam.split(",").map(num => parseFloat(num.trim()).toFixed(2));
       let lstDayParam = urlParams.get("lst_day") || ""; // Format comma separated values
-      chartLSTDayData = lstDayParam.split(",").map(num => Number(num.trim()));
+      chartLSTDayData = lstDayParam.split(",").map(num => parseFloat(num.trim()).toFixed(2));
       let valuesLSTNightParam = urlParams.get("lst_night") || ""; // Format comma separated values
-      chartLSTNightData = valuesLSTNightParam.split(",").map(num => Number(num.trim()));
+      chartLSTNightData = valuesLSTNightParam.split(",").map(num => parseFloat(num.trim()).toFixed(2));
       data_point = 0
       if(chartData != null){
         data_point = parseInt(chartData[chartData.length - 1]);
@@ -104,7 +104,7 @@
   <Card>
 
     <div class="border-b border-gray-200 pb-5">
-      <h3 class="text-base font-semibold text-gray-900">{name}</h3>
+      <h3 class="text-base font-semibold text-gray-50">{name}</h3>
     </div>
     <div class="flex justify-between mt-5">
       
