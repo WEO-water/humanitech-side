@@ -1,19 +1,34 @@
 <script>
-    import { Chart, Card, A, Button, Dropdown, DropdownItem } from 'flowbite-svelte';
-    import { ChevronRightOutline, ChevronDownOutline } from 'flowbite-svelte-icons';
+    import { Chart, Card, A, Button, Dropdown, DropdownItem, Popover } from 'flowbite-svelte';
+    import { InfoCircleSolid,ChevronRightOutline, ChevronDownOutline, ArrowUpOutline, ArrowDownOutline } from 'flowbite-svelte-icons';
     import { assets, base, resolveRoute } from '$app/paths';
     import { onMount } from 'svelte';
-
+    let name = $state("...");
+    let chartData = $state([])
+    let chartLSTNightData = $state([] )
+    let chartLSTDayData = $state([] )
     let data_point = $state(0)
+    let lst_day_current = $state(0)
+    let lst_night_current = $state(0)
+    let change_lst = $derived(chartLSTDayData[chartLSTDayData.length -1]- chartLSTDayData[0])
     onMount(async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      let firstParam = urlParams.get("first");
+      let valuesParam = urlParams.get("values") || ""; // Format comma separated values
+      name = urlParams.get("name") || ""; // Format comma separated values
+      chartData = valuesParam.split(",").map(num => Number(num.trim()));
+      let lstDayParam = urlParams.get("lst_day") || ""; // Format comma separated values
+      chartLSTDayData = lstDayParam.split(",").map(num => Number(num.trim()));
+      let valuesLSTNightParam = urlParams.get("lst_night") || ""; // Format comma separated values
+      chartLSTNightData = valuesLSTNightParam.split(",").map(num => Number(num.trim()));
       data_point = 0
-      if(firstParam != null){
-        data_point = parseInt(firstParam);
+      if(chartData != null){
+        data_point = parseInt(chartData[chartData.length - 1]);
       }
+      lst_night_current = parseInt(chartLSTNightData[chartLSTNightData.length - 1]);
+      lst_day_current = parseInt(chartLSTDayData[chartLSTDayData.length - 1]);
+      name = urlParams.get("name") || "";
     })
-    let options = {
+    let options = $derived({
       chart: {
         height: '400px',
         maxWidth: '100%',
@@ -57,14 +72,19 @@
         }
       },
       series: [
-        {
-          name: 'New users',
-          data: [6500, 6418, 6456, 6526, 6356, 6456],
-          color: '#1A56DB'
-        }
-      ],
+      {
+        name: 'LST Day',
+        data: chartLSTDayData,
+        color: '#1A56DB'
+      },
+      {
+        name: 'LST NIght',
+        data: chartLSTNightData,
+        color: '#7E3AF2'
+      }
+    ],
       xaxis: {
-        categories: ['01 February', '02 February', '03 February', '04 February', '05 February', '06 February', '07 February'],
+        categories: ['December 24', 'January 25', 'February 25'],
         labels: {
           show: false
         },
@@ -78,35 +98,45 @@
       yaxis: {
         show: false
       }
-    };
+    });
   </script>
   
   <Card>
-    <div class="flex justify-between">
-      <div>
-        <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">{data_point}</h5>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">Land Surface Temperature</p>
+
+    <div class="border-b border-gray-200 pb-5">
+      <h3 class="text-base font-semibold text-gray-900">{name}</h3>
+    </div>
+    <div class="flex justify-between mt-5">
+      
+      <div class="grid gap-4 grid-cols-2">
+        <div>
+          <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
+            LST Day
+            
+          </h5>
+          <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{lst_day_current}°C</p>
+        </div>
+        <div>
+          <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
+            LST Night
+            
+          </h5>
+          <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{lst_night_current}°C</p>
+        </div>
       </div>
       <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
-        12%
-        <ChevronRightOutline class="w-6 h-6 ms-1" />
+        {#if change_lst > 0}
+        <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
+          <ArrowUpOutline class="w-2.5 h-2.5 me-1.5" />
+          {change_lst}°C
+        </span>
+        {:else}
+        <span class="bg-red-100 text-red-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-red-900 dark:text-red-300">
+          <ArrowDownOutline class="w-2.5 h-2.5 me-1.5" />
+          {change_lst}°C
+        </span>
+        {/if}
       </div>
     </div>
     <Chart {options} />
-    <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
-      <div class="flex justify-between items-center pt-5">
-        <Button class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white bg-transparent hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent focus:ring-transparent dark:focus:ring-transparent py-0">Last 7 days<ChevronDownOutline class="w-2.5 m-2.5 ms-1.5" /></Button>
-        <Dropdown class="w-40" offset="-6">
-          <DropdownItem>Yesterday</DropdownItem>
-          <DropdownItem>Today</DropdownItem>
-          <DropdownItem>Last 7 days</DropdownItem>
-          <DropdownItem>Last 30 days</DropdownItem>
-          <DropdownItem>Last 90 days</DropdownItem>
-        </Dropdown>
-        <A href={base} class="uppercase text-sm font-semibold hover:text-primary-700 dark:hover:text-primary-500 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2 hover:no-underline">
-          Users Report
-          <ChevronRightOutline class="w-2.5 h-2.5 ms-1.5" />
-        </A>
-      </div>
-    </div>
   </Card>
