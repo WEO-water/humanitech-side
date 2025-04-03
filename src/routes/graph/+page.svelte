@@ -27,7 +27,12 @@
     onMount(async () => {
       const urlParams = new URLSearchParams(window.location.search);
       let valuesParam = urlParams.get("values") || ""; // Format comma separated values
-      name = urlParams.get("name") || ""; // Format comma separated values
+      let nameBase64 = urlParams.get("nameBase64") || "";
+      if(nameBase64){
+        name = atob(nameBase64)
+      }else{
+        name = ""
+      }
       chartData = valuesParam.split(",").map(num => parseFloat(num.trim()).toFixed(2));
       let lstDayParam = urlParams.get("lst_day") || ""; // Format comma separated values
       chartLSTDayData = lstDayParam.split(",").map(num => parseFloat(num.trim()).toFixed(2));
