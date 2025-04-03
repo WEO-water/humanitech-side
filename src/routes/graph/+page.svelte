@@ -122,7 +122,7 @@
     });
   </script>
   
-  <div class="m-5">
+  <div class="m-1">
     <div class="border-b border-gray-200 pb-5 mb-5">
       <h3 class="text-base font-semibold text-gray-50">{name}</h3>
     </div>
