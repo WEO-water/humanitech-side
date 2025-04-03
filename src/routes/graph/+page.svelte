@@ -132,15 +132,25 @@
           <InfoCircleSolid class="w-5 h-5" />
           <span class="sr-only">Heat risk</span>
         </span>
-        <p class="font-medium">Heat risk warning Problem:</p>
+        This zone has a high heat risk and increased risk for heatstroke or heat exhaustion. If you live in this area seek advice from local authorities.<br>
+        <p class="mt-1.5 font-medium">Possible solutions:</p>
         <ul class="mt-1.5 ms-4 list-disc list-inside">
-          <li>Problem 1</li>
-          <li>Problem 2</li>
+          <li>Plant trees</li>
+          <li>Implement green roofs</li>
         </ul>
-        <p class="mt-1.5 font-medium">Solutions:</p>
+        <p class="mt-1.5 font-medium">Prevention of heatstrokes or heat exhaustion:</p>
         <ul class="mt-1.5 ms-4 list-disc list-inside">
-          <li>Solution 1</li>
-          <li>Solution 2</li>
+          <li>Seek cool or shady areas</li>
+          <li>Drink water</li>
+          <li>Take cold showers</li>
+        </ul>
+        <p class="mt-1.5 font-medium">In case fo these symptoms call the emergency services:</p>
+        <ul class="mt-1.5 ms-4 list-disc list-inside">
+          <li>nausea</li>
+          <li>muscle spasms
+          <li>pain throughout the body
+          <li>unusual behaviour or signs of confusion
+          <li>seizure or possible loss of responsiveness
         </ul>
       </Alert>
     {/if}
