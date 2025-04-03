@@ -1,7 +1,6 @@
 <script>
-    import { Chart, Card, A, Button, Dropdown, DropdownItem, Popover } from 'flowbite-svelte';
-    import { InfoCircleSolid,ChevronRightOutline, ChevronDownOutline, ArrowUpOutline, ArrowDownOutline } from 'flowbite-svelte-icons';
-    import { assets, base, resolveRoute } from '$app/paths';
+    import { Alert,  Chart,  } from 'flowbite-svelte';
+    import { InfoCircleSolid, ArrowUpOutline, ArrowDownOutline } from 'flowbite-svelte-icons';
     import { onMount } from 'svelte';
     let name = $state("...");
     let chartData = $state([])
@@ -11,6 +10,20 @@
     let lst_day_current = $state(0)
     let lst_night_current = $state(0)
     let change_lst = $derived(chartLSTDayData[chartLSTDayData.length -1]- chartLSTDayData[0])
+    let heat_risk = $derived.by(() => {
+      let current_lst_day = chartLSTDayData[chartLSTDayData.length -1];
+      let current_lst_night = chartLSTNightData[chartLSTNightData.length -1];
+      if(current_lst_day>40 || current_lst_night>30){
+        return 1;
+      }
+      if(current_lst_day>35 || current_lst_night>23){
+        return 2;
+      }
+      if(current_lst_day>30 || current_lst_night>20){
+        return 3;
+      }
+      return 4;
+	  });
     onMount(async () => {
       const urlParams = new URLSearchParams(window.location.search);
       let valuesParam = urlParams.get("values") || ""; // Format comma separated values
@@ -81,9 +94,9 @@
         name: 'LST NIght',
         data: chartLSTNightData,
         color: '#7E3AF2'
-      }
+      },
     ],
-      xaxis: {
+    xaxis: {
         categories: ['December 24', 'January 25', 'February 25'],
         labels: {
           show: false
@@ -96,16 +109,41 @@
         }
       },
       yaxis: {
-        show: false
+        labels: {
+          formatter: function (value) {
+            return value + " °C"; // Adding postfix
+          },
+          style: {
+            colors: "gray", // Change y-axis label color
+            fontSize: "12px",
+          }
+        }
       }
     });
   </script>
   
-  <Card>
-
-    <div class="border-b border-gray-200 pb-5">
+  <div class="m-5">
+    <div class="border-b border-gray-200 pb-5 mb-5">
       <h3 class="text-base font-semibold text-gray-50">{name}</h3>
     </div>
+    {#if heat_risk < 3}
+      <Alert  class="items-start! " rounded={false}>
+        <span slot="icon">
+          <InfoCircleSolid class="w-5 h-5" />
+          <span class="sr-only">Heat risk</span>
+        </span>
+        <p class="font-medium">Heat risk warning Problem:</p>
+        <ul class="mt-1.5 ms-4 list-disc list-inside">
+          <li>Problem 1</li>
+          <li>Problem 2</li>
+        </ul>
+        <p class="mt-1.5 font-medium">Solutions:</p>
+        <ul class="mt-1.5 ms-4 list-disc list-inside">
+          <li>Solution 1</li>
+          <li>Solution 2</li>
+        </ul>
+      </Alert>
+    {/if}
     <div class="flex justify-between mt-5">
       
       <div class="grid gap-4 grid-cols-2">
@@ -139,4 +177,4 @@
       </div>
     </div>
     <Chart {options} />
-  </Card>
+  </div>
