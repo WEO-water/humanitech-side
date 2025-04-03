@@ -44,7 +44,6 @@
       }
       lst_night_current = parseInt(chartLSTNightData[chartLSTNightData.length - 1]);
       lst_day_current = parseInt(chartLSTDayData[chartLSTDayData.length - 1]);
-      name = urlParams.get("name") || "";
     })
     let options = $derived({
       chart: {
