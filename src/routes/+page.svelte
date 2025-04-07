@@ -1,6 +1,10 @@
 <script>
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
+    import { initGA } from '../google-analytics.js';
+
+    // Initialize Google Analytics
+    initGA();
   
     let {data} = $props() // Receives `paramValue` from `+page.js`
     let fetchedData = null;

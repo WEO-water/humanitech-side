@@ -2,6 +2,10 @@
     
     import { onMount } from 'svelte';
     import { Felt } from "@feltmaps/js-sdk";
+    import { initGA } from '../../google-analytics.js';
+
+    // Initialize Google Analytics
+    initGA();
 
     let el = $state();
 
