@@ -1,7 +1,9 @@
 <script>
-    import { Alert,  Chart,  } from 'flowbite-svelte';
+    import { Alert,  Chart, Tabs, TabItem  } from 'flowbite-svelte';
     import { InfoCircleSolid, ArrowUpOutline, ArrowDownOutline } from 'flowbite-svelte-icons';
     import { onMount } from 'svelte';
+    import { Sample, RiskTable } from '$lib/components'
+
     let name = $state("...");
     let chartData = $state([])
     let chartLSTNightData = $state([] )
@@ -130,6 +132,8 @@
     <div class="border-b border-gray-200 pb-5 mb-5">
       <h3 class="text-base font-semibold text-gray-50">{name}</h3>
     </div>
+    <Sample/>
+    <RiskTable fireRisk="High Risk"/>
     {#if heat_risk < 3}
       <Alert  class="items-start! " rounded={false}>
         <span slot="icon">
@@ -158,37 +162,45 @@
         </ul>
       </Alert>
     {/if}
-    <div class="flex justify-between mt-5">
+    <Tabs>
+      <TabItem open title="Temperature">
+        <div class="flex justify-between mt-5">
       
-      <div class="grid gap-4 grid-cols-2">
-        <div>
-          <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
-            LST Day
-            
-          </h5>
-          <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{lst_day_current}°C</p>
+          <div class="grid gap-4 grid-cols-2">
+            <div>
+              <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
+                LST Day
+                
+              </h5>
+              <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{lst_day_current}°C</p>
+            </div>
+            <div>
+              <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
+                LST Night
+                
+              </h5>
+              <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{lst_night_current}°C</p>
+            </div>
+          </div>
+          <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+            {#if change_lst <= 0}
+            <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
+              <ArrowDownOutline class="w-2.5 h-2.5 me-1.5" />
+              {change_lst}°C
+            </span>
+            {:else}
+            <span class="bg-red-100 text-red-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-red-900 dark:text-red-300">
+              <ArrowUpOutline class="w-2.5 h-2.5 me-1.5" />
+              {change_lst}°C
+            </span>
+            {/if}
+          </div>
         </div>
-        <div>
-          <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
-            LST Night
-            
-          </h5>
-          <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{lst_night_current}°C</p>
-        </div>
-      </div>
-      <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
-        {#if change_lst <= 0}
-        <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
-          <ArrowDownOutline class="w-2.5 h-2.5 me-1.5" />
-          {change_lst}°C
-        </span>
-        {:else}
-        <span class="bg-red-100 text-red-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-red-900 dark:text-red-300">
-          <ArrowUpOutline class="w-2.5 h-2.5 me-1.5" />
-          {change_lst}°C
-        </span>
-        {/if}
-      </div>
-    </div>
-    <Chart {options} />
+        <Chart {options} />
+      </TabItem>
+      <TabItem title="Trees">
+        Trees
+      </TabItem>
+    </Tabs>
+    
   </div>
